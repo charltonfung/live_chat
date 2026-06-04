@@ -10,20 +10,26 @@ JDK 17
 
 **1. 編譯**
 
+Git Bash:
+```bash
+./mvnw compile
+```
+
+PowerShell / CMD:
 ```powershell
 .\mvnw.cmd compile
 ```
 
 **2. 開 Terminal 跑 Server**
 
-```powershell
-java -cp target\classes com.jay.server.ServerMain
+```
+java -cp target/classes com.jay.server.ServerMain
 ```
 
 **3. 每位用戶開一個 Terminal 跑 Client**
 
-```powershell
-java -cp target\classes com.jay.ui.ClientMain
+```
+java -cp target/classes com.jay.ui.ClientMain
 ```
 
 跑幾次就有幾位用戶,輸入名字按 Enter 進入聊天室。
