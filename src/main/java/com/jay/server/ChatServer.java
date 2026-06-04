@@ -75,4 +75,24 @@ public class ChatServer {
     public void removeClient(ClientHandler client) {
         clients.remove(client);
     }
+
+    /**
+     * 嘗試把名字註冊給指定的 ClientHandler。
+     *
+     * synchronized 鎖住整個 server,讓「檢查是否重名」與「設定名字」變成原子動作,
+     * 避免兩個用戶同時登入同名時兩邊都判定通過的競爭狀況。
+     *
+     * @return true  成功(名字未被使用,已寫入該 handler)
+     *         false 失敗(名字已被線上其他用戶佔用)
+     */
+    public synchronized boolean reserveName(String requestedName, ClientHandler requester) {
+        for (ClientHandler c : clients) {
+            // 跳過自己;比對 name 是否相同(大小寫敏感)
+            if (c != requester && requestedName.equals(c.getName())) {
+                return false;
+            }
+        }
+        requester.assignName(requestedName);
+        return true;
+    }
 }
