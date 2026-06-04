@@ -1,0 +1,79 @@
+package com.jay.ui;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ClientChatUI {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Group Chat");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null); // Center the frame
+
+            // Main panel
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BorderLayout());
+
+            // Message Display Panel
+            JPanel messagePanel = new JPanel();
+            messagePanel.setLayout(new BorderLayout());
+            messagePanel.setBorder(BorderFactory.createTitledBorder("Messages"));
+
+            JTextArea messageArea = new JTextArea();
+            messageArea.setEditable(false);
+            messageArea.setFont(new Font("Arial", Font.PLAIN, 14));
+            JScrollPane messageScrollPane = new JScrollPane(messageArea);
+            messagePanel.add(messageScrollPane, BorderLayout.CENTER);
+
+            // Online Users Panel
+            JPanel usersPanel = new JPanel();
+            usersPanel.setLayout(new BorderLayout());
+            usersPanel.setBorder(BorderFactory.createTitledBorder("Online Users"));
+            usersPanel.setPreferredSize(new Dimension(150, 0));
+
+            // Online Users List
+            DefaultListModel<String> userListModel = new DefaultListModel<>();
+            // Add current user only (example: "You")
+            userListModel.addElement("You");
+
+            JList<String> userList = new JList<>(userListModel);
+            userList.setFont(new Font("Arial", Font.PLAIN, 14));
+            JScrollPane userScrollPane = new JScrollPane(userList);
+            usersPanel.add(userScrollPane, BorderLayout.CENTER);
+
+            // Message Input Panel
+            JPanel inputPanel = new JPanel();
+            inputPanel.setLayout(new BorderLayout());
+            inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            JTextField messageInputField = new JTextField();
+            messageInputField.setFont(new Font("Arial", Font.PLAIN, 14));
+            inputPanel.add(messageInputField, BorderLayout.CENTER);
+
+            JButton sendButton = new JButton("Send");
+            sendButton.setFont(new Font("Arial", Font.BOLD, 14));
+            sendButton.setBackground(new Color(70, 130, 180));
+            sendButton.setForeground(Color.WHITE);
+            inputPanel.add(sendButton, BorderLayout.EAST);
+
+            // Add Action Listener to Send Button
+            sendButton.addActionListener(e -> {
+                String message = messageInputField.getText().trim();
+                if (!message.isEmpty()) {
+                    messageArea.append("You: " + message + "\n");
+                    messageInputField.setText("");
+                }
+            });
+
+            // Add Components to Main Panel
+            mainPanel.add(messagePanel, BorderLayout.CENTER);
+            mainPanel.add(usersPanel, BorderLayout.EAST);
+            mainPanel.add(inputPanel, BorderLayout.SOUTH);
+
+            // Add Main Panel to Frame
+            frame.add(mainPanel);
+            frame.setVisible(true);
+        });
+    }
+}
